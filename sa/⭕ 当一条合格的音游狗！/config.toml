@@ -1,0 +1,65 @@
+# [ 日志部分 ]
+# 可用键与 loguru.logger.add 的参数一致
+
+# log.console 一般日志
+[[log.console]]
+sink = "logs/run.log"
+rotation = "1 week"
+
+
+# log.stat 指标的原始数据
+# 指标会以 level=TRACE 输出，请不要在这里指定 level
+[[log.stat]]
+sink = "logs/stat.log"
+format = "{time} | {message}"
+rotation = "1 day"
+retention = "2 weeks"
+
+
+# 指定使用哪些指标模块
+# 默认为都不使用
+[quotas.enable]
+cpu = true
+disk = true
+mem = true
+
+
+# [ 报警部分 ]
+
+# 指定报警阈值
+[threshold.cpu]
+cpu_percent = 5
+
+
+[threshold.mem]
+memory.percent = 5
+
+
+# 指定使用哪些报警方式
+# 默认为都不开启
+[report.enable]
+email = false
+webhook = true
+
+
+# email 报警方式的必要设置
+[report.email]
+host = ""
+user = ""
+pass = ""
+sender = ""
+
+
+[[report.email.targets]]
+receiver = "maintainer@domain.com"
+
+
+[[report.email.targets]]
+receiver = "admin@domain.com"
+
+
+[[report.webhook.targets]]
+endpoint = ""
+placeholder = ""
+template = ""
+headers = {}
